@@ -1,15 +1,19 @@
+from re import X
 import numpy as np
 import matplotlib.pyplot as plt
 
 class Layer :
     def __init__(self, input_size, output_size, activation_fonction, lr = 0.1) :
+        self.output_size = output_size
         self.weights = np.random.randn(output_size, input_size) # les poids (des entiers random) une matrice de taille entrée x sortie
         self.bias = np.random.randn(output_size) # le biais (des random)
         self.lr = lr # taux d aprentissage
         self.activation_fonction = activation_fonction
     
     def sigmoid(self, x) : # Sigmoïde qui va de 0 a 1
-        return 1/(1+ np.exp(-x))
+        cc = np.array(x, dtype=np.float128) # pour eviter les probles avec numpy
+        sig = 1/((1+np.exp(-cc)))
+        return sig
     
     def sigmoid_deriv(self, x): # dérivée de la fonction sigmoïde
         sig = self.sigmoid(x)
@@ -22,7 +26,7 @@ class Layer :
         return 1 - np.tanh(x)**2
 
     def relu(seld, x) :
-        return np.maximum(0, x)
+        return np.maximum(np.zeros(len(x)), x)
 
     def relu_deriv(self, x):
         # Create a copy of x to avoid modifying the original array directly
